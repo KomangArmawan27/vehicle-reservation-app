@@ -2,7 +2,7 @@
 
 use Illuminate\Http\Request;
 use App\Http\Controllers\ProfileController;
-use App\Http\Controllers\AdminDashboardController;
+use App\Http\Controllers\ChartController;
 use App\Http\Controllers\HomeDashboardController;
 use App\Http\Controllers\ReservationController;
 use App\Http\Controllers\ApprovalController;
@@ -17,9 +17,9 @@ Route::get('/', function () {
 });
 
 Route::middleware(['auth', 'role:admin'])->group(function () {
-    Route::get('/admin/dashboard', [AdminDashboardController::class, 'index'])->name('dashboard.chart');
+    Route::get('/dashboard/report', [ChartController::class, 'index'])->name('dashboard.chart');
     
-    Route::get('/admin/export', function(Request $request) {
+    Route::get('/dashboard/report/export', function(Request $request) {
         $start = $request->input('start_date');
         $end = $request->input('end_date');
     

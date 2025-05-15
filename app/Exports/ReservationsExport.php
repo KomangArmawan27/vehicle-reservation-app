@@ -20,18 +20,44 @@ class ReservationsExport implements FromCollection, WithHeadings
 
     public function collection()
     {
-        $query = Reservation::query();
+        $query = Reservation::with('vehicle'); // eager load vehicle
 
         if ($this->startDate && $this->endDate) {
-            $query->whereBetween('start_time', [$this->startDate, $this->endDate]);
+            $query->whereBetween('created_at', [$this->startDate, $this->endDate]);
         }
 
-        return $query->get(['id', 'vehicle_id', 'user_id', 'approver_id', 'start_time', 'end_time','status', 'purpose', 'created_at']);
+        $reservations = $query->get([
+            'id',
+            'vehicle_id',
+            'driver_id',
+            'user_id',
+            'start_time',
+            'end_time',
+            'status',
+            'purpose',
+            'created_at'
+        ]);
+
+        // Map the collection to replace vehicle_id with vehicle->name
+        return $reservations->map(function ($reservation) {
+            return [
+                'id' => $reservation->id,
+                'vehicle_name' => $reservation->vehicle ? $reservation->vehicle->name : '-',
+                'driver_id' => $reservation->driver ? $reservation->driver->name : '-',
+                'user_id' => $reservation->user ? $reservation->user->name : '-',
+                'start_time' => $reservation->start_time,
+                'end_time' => $reservation->end_time,
+                'status' => $reservation->status,
+                'purpose' => $reservation->purpose,
+                'created_at' => $reservation->created_at,
+            ];
+        });
     }
+
 
     public function headings(): array
     {
-        return ['ID', 'Vehicle ID', 'Requested By', 'Approved By', 'Start Time', 'End Time', 'Status', 'Purpose', 'Created At'];
+        return ['ID', 'Vehicle ID', 'Driver ID', 'Requested By', 'Start Time', 'End Time', 'Status', 'Purpose', 'Created At'];
     }
 }
 

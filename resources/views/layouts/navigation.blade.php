@@ -19,7 +19,7 @@
                         {{ __('Reservations') }}
                     </x-nav-link>
                     <x-nav-link :href="route('dashboard.chart')" :active="request()->routeIs('dashboard.chart')">
-                        {{ __('Laporan Pemakaian') }}
+                        {{ __('Report') }}
                     </x-nav-link>
                 </div>
             </div>
