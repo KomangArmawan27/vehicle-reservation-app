@@ -55,7 +55,30 @@
    php artisan serve
    ```
 
-   The app will be accessible at `http://localhost:8000`
+   The app will be accessible at `http://127.0.0.1:8000`
+
+## How to Use
+
+- Register a new user or login with existing credentials  
+- Default registered users have the **admin** role  
+- The app includes the following pages:  
+  - **Main Page**  
+  - **Dashboard**  
+    - Admin sees reservation status overview  
+    - Approver sees reservation requests needing review  
+  - **Reservation** management  
+  - **Reporting** with export functionality  
+
+- Admin users can create new reservations which start with a **pending** status  
+- Approver users review and approve or reject reservation requests  
+
+## Default Users
+
+| Email                 | Password  | Role     |
+|-----------------------|-----------|----------|
+| admin@example.com      | password  | Admin    |
+| approver1@example.com  | password  | Approver |
+| approver2@example.com  | password  | Approver |
 
 ---
 
